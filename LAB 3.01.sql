@@ -49,3 +49,23 @@ VALUES (16050, current_date(), 1, 130, 1, current_date());
 SELECT *
 FROM sakila.rental
 WHERE rental_id = 16050;
+
+## Activity 2
+
+USE information_schema;
+
+SELECT table_name, referenced_table_name
+FROM REFERENTIAL_CONSTRAINTS
+WHERE UNIQUE_CONSTRAINT_SCHEMA = 'sakila';
+
+-- We have checked for the database's referential constraints and they are all in place, so there is no need to improve that. 
+
+-- Next, we check that there is no more than one category_id for every film_id, so we can remove the category - film table. 
+select film_id
+		, count(category_id) AS c_count
+from sakila.film_category 
+group by film_id
+order by c_count DESC
+;
+
+-- We see there is only one category_id per film_id. 
